@@ -19,7 +19,7 @@ export function EntryHeader({ entry }: { entry: WorkshopEntry }) {
       >
         {formatDate(entry.date)}
       </time>
-      <p className="mt-6 max-w-measure text-lede text-fg-soft">
+      <p className="mt-6 text-lede text-fg-soft">
         {entry.summary}
       </p>
     </header>

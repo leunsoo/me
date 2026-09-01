@@ -13,7 +13,7 @@ export default function WorkshopPage() {
       <h1 className="font-display text-title font-semibold tracking-[-0.02em] text-fg">
         작업실
       </h1>
-      <p className="mt-4 max-w-measure text-lede text-fg-soft">
+      <p className="mt-4 text-lede text-fg-soft">
         재미로 구현한 기능들. 하나씩, 만든 것과 그 설명.
       </p>
 

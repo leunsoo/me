@@ -1,37 +1,43 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import Container from "@/components/ui/Container";
+import { readMdxDocument } from "@/lib/mdx";
 import {
   EntryHeader,
-  getEntry,
-  WORKSHOP_CONTENT,
-  WORKSHOP_ENTRIES,
+  getAllWorkshopEntries,
+  workshopMdxComponents,
+  type WorkshopFrontmatter,
 } from "@/features/workshop";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return WORKSHOP_ENTRIES.map((e) => ({ slug: e.slug }));
+  return getAllWorkshopEntries().map((e) => ({ slug: e.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const entry = getEntry(slug);
-  if (!entry) return {};
-  return { title: entry.title, description: entry.summary };
+  const doc = readMdxDocument<WorkshopFrontmatter>("workshop", slug);
+  if (!doc) return {};
+  return { title: doc.frontmatter.title, description: doc.frontmatter.summary };
 }
 
 export default async function WorkshopEntryPage({ params }: Props) {
   const { slug } = await params;
-  const entry = getEntry(slug);
-  const Content = WORKSHOP_CONTENT[slug];
-  if (!entry || !Content) notFound();
+  const doc = readMdxDocument<WorkshopFrontmatter>("workshop", slug);
+  if (!doc) notFound();
 
   return (
     <Container className="py-section">
-      <EntryHeader entry={entry} />
-      <div className="mt-block">
-        <Content />
+      <EntryHeader entry={{ slug: doc.slug, ...doc.frontmatter }} />
+      <div className="prose mt-block">
+        <MDXRemote
+          source={doc.content}
+          components={workshopMdxComponents}
+          options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+        />
       </div>
     </Container>
   );

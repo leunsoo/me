@@ -12,7 +12,7 @@ export default function BlogPage() {
       <h1 className="font-display text-title font-semibold tracking-[-0.02em] text-fg">
         블로그
       </h1>
-      <p className="mt-4 max-w-measure text-lede text-fg-soft">
+      <p className="mt-4 text-lede text-fg-soft">
         공부한 내용과 개인적인 생각을 정리하는 곳. 곧 채워집니다.
       </p>
     </Container>

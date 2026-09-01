@@ -24,7 +24,7 @@ export default function Hero() {
           <span className="sr-only">leunsoo — 프론트엔드 개발자</span>
         </h1>
 
-        <p className="mt-block max-w-measure text-lede text-fg-soft">
+        <p className="mt-block text-lede text-fg-soft">
           감각적인 웹 경험을 설계하고 구현하는 프론트엔드 개발자입니다. 복잡한
           문제를 단순하고 우아한 코드로 풀어내는 과정을 즐깁니다.
         </p>
