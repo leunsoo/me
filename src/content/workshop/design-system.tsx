@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Button from "../../components/ui/Button";
+import Button from "@/components/ui/Button";
 
 // "디자인 시스템" 작업실 항목의 본문.
 // 설명(.prose) + 살아있는 레퍼런스(색·타입·버튼·링크·간격).

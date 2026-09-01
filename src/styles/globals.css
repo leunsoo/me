@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@import "./styles/primitives.css";
-@import "./styles/semantic.css";
+@import "./primitives.css";
+@import "./semantic.css";
 
 /*
  * 색 + 폰트만 `@theme inline`.

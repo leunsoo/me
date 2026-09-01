@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Container from "./ui/Container";
-import ThemeToggle from "./ui/ThemeToggle";
+import Container from "@/components/ui/Container";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 const NAV_LINKS = [
   { label: "작업실", href: "/workshop" },

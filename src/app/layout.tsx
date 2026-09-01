@@ -4,9 +4,9 @@ import {
   Hanken_Grotesk,
   JetBrains_Mono,
 } from "next/font/google";
-import "./globals.css";
-import TopNav from "./components/TopNav";
-import Footer from "./components/Footer";
+import "@/styles/globals.css";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",

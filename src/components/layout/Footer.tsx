@@ -1,4 +1,4 @@
-import Container from "./ui/Container";
+import Container from "@/components/ui/Container";
 
 const SOCIALS = [
   { label: "GitHub", href: "https://github.com" },
