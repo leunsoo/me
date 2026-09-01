@@ -9,7 +9,7 @@ import Typewriter from "./Typewriter";
  */
 export default function Hero() {
   return (
-    <section className="border-b border-line py-section">
+    <section className="py-section">
       <Container>
         <h1 className="font-display text-display tracking-[-0.03em] text-fg">
           <span aria-hidden className="block text-title font-medium text-fg-soft">
@@ -30,8 +30,8 @@ export default function Hero() {
         </p>
 
         <div className="mt-block flex flex-col gap-3 sm:flex-row">
-          <Button href="#lab" variant="primary">
-            실험실 탐색
+          <Button href="/workshop" variant="primary">
+            작업실 보기
           </Button>
           <Button
             href="https://github.com"

@@ -1,18 +1,9 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Container from "../components/ui/Container";
-import Button from "../components/ui/Button";
-import ThemeToggle from "../components/ui/ThemeToggle";
+import Button from "../../components/ui/Button";
 
-export const metadata: Metadata = {
-  title: "Styleguide",
-  robots: { index: false, follow: false },
-};
-
-// 이 페이지에 늘어놓은 것이 곧 디자인 시스템의 "계약서".
-// 새 토큰·컴포넌트는 여기에 등록해야 유지된다.
-// Tailwind 는 소스에서 "리터럴" 클래스 문자열만 스캔하므로
-// 아래 클래스들은 절대 문자열 보간(`bg-${x}`)으로 만들지 않는다.
+// "디자인 시스템" 작업실 항목의 본문.
+// 설명(.prose) + 살아있는 레퍼런스(색·타입·버튼·링크·간격).
+// Tailwind 는 리터럴 클래스 문자열만 스캔하므로 아래 클래스는 절대 보간하지 않는다.
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -74,15 +65,49 @@ const SPACES: { cls: string; name: string }[] = [
   { cls: "w-[var(--spacing-section)]", name: "section" },
 ];
 
-export default function StyleguidePage() {
+export default function DesignSystem() {
   return (
-    <Container className="py-block">
-      <header className="flex items-baseline justify-between border-b border-line pb-6">
-        <h1 className="font-display text-title font-semibold tracking-[-0.02em]">
-          Styleguide
-        </h1>
-        <ThemeToggle />
-      </header>
+    <>
+      <div className="prose">
+        <p>
+          이 사이트의 색·타이포·간격은 컴포넌트에 값을 직접 박지 않고{" "}
+          <strong>토큰</strong>으로 관리한다. 값 하나가 한 곳에만 존재하고,
+          컴포넌트는 <strong>배경</strong>·<strong>강조</strong> 같은 역할만
+          참조한다. 연결표만 바꾸면 전체가 따라온다.
+        </p>
+
+        <h2>3계층</h2>
+        <ul>
+          <li>
+            <strong>원시 (primitive)</strong> — 의미 없는 원시 값. <code>--gray-950</code>,{" "}
+            <code>--blue-500</code>. 거의 안 바뀐다.
+          </li>
+          <li>
+            <strong>의미 (semantic)</strong> — 역할. <code>--color-bg</code>,{" "}
+            <code>--color-accent</code>. primitive 를 참조하고, 라이트/다크가 여기서 갈린다.
+          </li>
+          <li>
+            <strong>@theme</strong> — 의미 토큰을 Tailwind 유틸(<code>bg-bg</code>,{" "}
+            <code>text-fg</code>)로 노출한다.
+          </li>
+        </ul>
+
+        <h2>다크모드</h2>
+        <p>
+          <code>semantic.css</code> 에서{" "}
+          <code>--color-bg: light-dark(var(--gray-50), var(--gray-950))</code> 한 줄.{" "}
+          <code>color-scheme</code> 기준으로 자동 전환되고, <code>{"<html data-theme>"}</code>{" "}
+          로 강제할 수 있다.
+        </p>
+
+        <h2>시그니처 규칙</h2>
+        <p>
+          강조색(파랑)은 오직 밑줄로만 쓴다 — 본문{" "}
+          <a href="#link">링크</a>, 현재 메뉴, 포커스 링. 버튼 채우기나 아이콘엔 쓰지 않는다.
+        </p>
+
+        <p>아래는 살아있는 레퍼런스다.</p>
+      </div>
 
       <Section title="Color / 역할 토큰">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
@@ -129,9 +154,9 @@ export default function StyleguidePage() {
       </Section>
 
       <Section title="Link / 시그니처 규칙">
-        <p className="max-w-measure text-body text-fg">
+        <p id="link" className="max-w-measure text-body text-fg">
           본문 안의{" "}
-          <a href="#" className="link">
+          <a href="#link" className="link">
             텍스트 링크
           </a>
           는 강조색 밑줄을 두른다. 버튼·아이콘에는 강조색을 쓰지 않는다. 포커스
@@ -151,6 +176,6 @@ export default function StyleguidePage() {
           ))}
         </div>
       </Section>
-    </Container>
+    </>
   );
 }

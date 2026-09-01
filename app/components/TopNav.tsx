@@ -1,46 +1,50 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Container from "./ui/Container";
+import ThemeToggle from "./ui/ThemeToggle";
 
 const NAV_LINKS = [
-  { label: "실험실", href: "#lab" },
-  { label: "블로그", href: "#blog" },
-  { label: "소개", href: "#about", active: true },
+  { label: "작업실", href: "/workshop" },
+  { label: "블로그", href: "/blog" },
+  { label: "소개", href: "/about" },
 ];
 
 export default function TopNav() {
+  const pathname = usePathname();
+
   return (
-    <nav className="sticky top-0 z-50 w-full bg-surface-container-lowest/90 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-page items-center justify-between px-gutter py-4">
-        <Link
-          href="/"
-          className="font-display text-headline-md font-bold text-ink-charcoal"
-        >
-          LEUNSOO
+    <header className="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur">
+      <Container className="flex h-16 items-center justify-between">
+        <Link href="/" className="font-display text-heading font-bold">
+          leunsoo
         </Link>
 
-        <div className="hidden gap-8 md:flex">
-          {NAV_LINKS.map(({ label, href, active }) => (
-            <Link
-              key={label}
-              href={href}
-              aria-current={active ? "page" : undefined}
-              className={
-                active
-                  ? "border-b-2 border-ink-charcoal pb-1 text-body-md text-ink-charcoal"
-                  : "text-body-md text-ink-charcoal/70 transition-colors duration-200 hover:text-ink-charcoal"
-              }
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
+        <nav className="hidden items-center gap-7 md:flex">
+          {NAV_LINKS.map(({ label, href }) => {
+            const active = pathname === href || pathname.startsWith(`${href}/`);
+            return (
+              <Link
+                key={href}
+                href={href}
+                aria-current={active ? "page" : undefined}
+                className={
+                  "text-body transition-colors " +
+                  (active
+                    ? // 현재 위치 = 강조색 밑줄 (시그니처)
+                      "text-fg underline decoration-accent decoration-2 underline-offset-[6px]"
+                    : "text-fg-soft hover:text-fg")
+                }
+              >
+                {label}
+              </Link>
+            );
+          })}
+        </nav>
 
-        <button
-          type="button"
-          className="rounded-full px-4 py-2 text-body-md text-ink-charcoal transition-colors duration-200 hover:bg-surface-variant"
-        >
-          채팅하기
-        </button>
-      </div>
-    </nav>
+        <ThemeToggle />
+      </Container>
+    </header>
   );
 }

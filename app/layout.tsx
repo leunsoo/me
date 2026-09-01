@@ -5,6 +5,8 @@ import {
   JetBrains_Mono,
 } from "next/font/google";
 import "./globals.css";
+import TopNav from "./components/TopNav";
+import Footer from "./components/Footer";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -25,7 +27,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "leunsoo — Frontend Developer",
+  title: {
+    default: "leunsoo — Frontend Developer",
+    template: "%s — leunsoo",
+  },
   description:
     "감각적인 웹 경험을 설계하고 구현하는 프론트엔드 개발자, leunsoo의 포트폴리오.",
 };
@@ -42,7 +47,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col bg-bg font-sans text-body text-fg">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        {children}
+        <TopNav />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
