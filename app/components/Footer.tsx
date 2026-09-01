@@ -1,33 +1,32 @@
-const SOCIAL_LINKS = [
-  { label: "Twitter", href: "https://twitter.com" },
+import Container from "./ui/Container";
+
+const SOCIALS = [
   { label: "GitHub", href: "https://github.com" },
   { label: "LinkedIn", href: "https://linkedin.com" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-surface-variant">
-      <div className="mx-auto flex w-full max-w-page flex-col items-center justify-between gap-4 px-gutter py-stack-md md:flex-row md:gap-0">
-        <div className="font-display text-headline-md font-semibold text-ink-charcoal">
-          LEUNSOO
-        </div>
-        <div className="text-body-md text-ink-charcoal/70">
-          © {new Date().getFullYear()} LEUNSOO. Built with joy.
-        </div>
-        <div className="flex gap-4 font-mono text-label-mono font-medium text-ink-charcoal/70">
-          {SOCIAL_LINKS.map(({ label, href }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors duration-200 hover:text-ink-charcoal"
-            >
-              {label}
-            </a>
+    <footer className="border-t border-line py-block">
+      <Container className="flex flex-col gap-4 sm:flex-row sm:items-baseline sm:justify-between">
+        <p className="text-caption text-fg-soft">
+          © {new Date().getFullYear()} leunsoo
+        </p>
+        <ul className="flex gap-5">
+          {SOCIALS.map(({ label, href }) => (
+            <li key={label}>
+              <a
+                href={href}
+                className="link text-caption text-fg"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {label}
+              </a>
+            </li>
           ))}
-        </div>
-      </div>
+        </ul>
+      </Container>
     </footer>
   );
 }

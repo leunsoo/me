@@ -1,0 +1,41 @@
+/*
+ * SEMANTIC TOKENS — 역할 (도면).
+ * 컴포넌트는 이것만 사용 (Tailwind 유틸: bg-bg, text-fg, border-line, decoration-accent …).
+ *
+ * 각 값은 CSS light-dark() 로 스스로 라이트<->다크 전환:
+ *   light-dark(<라이트 값>, <다크 값>)
+ * 는 `color-scheme` 기준으로 결정됨. 여기서 `color-scheme: light dark` 를 걸어
+ * 기본은 OS 설정을 따르게 하고, <html>의 [data-theme] 로 한쪽을 강제.
+ * 토큰당 한 줄, 미디어 쿼리 없음, 다크 블록 중복 없음.
+ */
+:root {
+  color-scheme: light dark;
+
+  /* 면 */
+  --color-bg: light-dark(var(--gray-50), var(--gray-950));
+  --color-bg-dim: light-dark(var(--gray-100), var(--gray-900));
+
+  /* 텍스트 */
+  --color-fg: light-dark(var(--gray-900), var(--gray-100));
+  --color-fg-soft: light-dark(var(--gray-600), var(--gray-400));
+  --color-fg-onfill: light-dark(var(--gray-50), var(--gray-950));
+
+  /* 선 — 그림자 대신 헤어라인으로 위계 */
+  --color-line: light-dark(var(--gray-200), var(--gray-800));
+
+  /* 솔리드 채우기 — 기본 버튼. 의도적으로 잉크색과 동일 */
+  --color-fill: light-dark(var(--gray-900), var(--gray-100));
+  --color-fill-hover: light-dark(var(--gray-700), var(--gray-0));
+
+  /* 강조 — 유일한 색. 밑줄 + 포커스 링 전용 */
+  --color-accent: light-dark(var(--blue-500), var(--blue-300));
+  --color-accent-soft: light-dark(var(--blue-100), var(--blue-950));
+}
+
+/* 명시적 선택이 OS 설정을 이김 (양방향) */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}

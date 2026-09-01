@@ -25,18 +25,23 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LEUNSOO — Frontend Developer",
+  title: "leunsoo — Frontend Developer",
   description:
-    "감각적인 웹 경험을 설계하고 구현하는 프론트엔드 개발자, LEUNSOO의 포트폴리오.",
+    "감각적인 웹 경험을 설계하고 구현하는 프론트엔드 개발자, leunsoo의 포트폴리오.",
 };
+
+// 첫 페인트 전에 저장된 테마를 적용해 깜빡임 방지.
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.dataset.theme=t;}}catch(e){}})();`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="ko"
+      suppressHydrationWarning
       className={`${bricolage.variable} ${hanken.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col overflow-x-hidden bg-surface-container-lowest font-sans text-body-md text-ink-charcoal">
+      <body className="flex min-h-full flex-col bg-bg font-sans text-body text-fg">
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {children}
       </body>
     </html>

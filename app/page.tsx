@@ -6,7 +6,9 @@ export default function Home() {
   return (
     <>
       <TopNav />
-      <Hero />
+      <main className="flex-1">
+        <Hero />
+      </main>
       <Footer />
     </>
   );

@@ -42,10 +42,11 @@ export default function Typewriter() {
     return () => clearTimeout(timeoutId);
   }, []);
 
+  // 커서 = 텍스트 span 의 오른쪽 테두리. 별도 엘리먼트가 아니라
+  // 텍스트 박스의 일부라 줄바꿈되거나 라인 높이를 부풀리지 않는다.
   return (
-    <span className="typing-container">
-      <span>{text}</span>
-      <span className="typing-cursor" aria-hidden="true" />
+    <span className="border-r-[0.06em] border-current pr-[0.12em] animate-caret motion-reduce:animate-none">
+      {text}
     </span>
   );
 }
