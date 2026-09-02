@@ -1,5 +1,4 @@
 import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button";
 import Typewriter from "./Typewriter";
 
 /**
@@ -12,35 +11,39 @@ export default function Hero() {
     <section className="py-section">
       <Container>
         <h1 className="font-display text-display tracking-[-0.03em] text-fg">
-          <span aria-hidden className="block text-title font-medium text-fg-soft">
+          <span
+            aria-hidden
+            className="block text-title font-medium text-fg-soft"
+          >
             &lt;leunsoo&gt;
           </span>
-          <span aria-hidden className="my-1 block font-bold">
+          {/* 태그 안 콘텐츠 */}
+          <span aria-hidden className="my-1 block pl-8 font-bold sm:pl-12">
             <Typewriter />
           </span>
-          <span aria-hidden className="block text-title font-medium text-fg-soft">
+          <span
+            aria-hidden
+            className="block text-title font-medium text-fg-soft"
+          >
             &lt;/leunsoo&gt;
           </span>
-          <span className="sr-only">leunsoo — 프론트엔드 개발자</span>
+          {/* 스크린 리더용 실제 제목 — 위 span 들은 aria-hidden */}
+          <span className="sr-only">이은수 — 프론트엔드 개발자</span>
         </h1>
 
-        <p className="mt-block text-lede text-fg-soft">
-          감각적인 웹 경험을 설계하고 구현하는 프론트엔드 개발자입니다. 복잡한
-          문제를 단순하고 우아한 코드로 풀어내는 과정을 즐깁니다.
-        </p>
-
-        <div className="mt-block flex flex-col gap-3 sm:flex-row">
-          <Button href="/workshop" variant="primary">
-            작업실 보기
-          </Button>
-          <Button
-            href="https://github.com"
-            variant="secondary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub 보기
-          </Button>
+        <div className="mt-block text-pretty break-keep text-fg-soft flex flex-col gap-1">
+          <p className="text-title">코드 강박</p>
+          <p className="text-lede">최고를 추구하며 최선을 탐색합니다.</p>
+          <div className="text-body py-1">
+            <p>
+              특정 직무에 종속되지 않고, 끝없는 사고와 문제 해결과 같이
+              개발이라는 행위 자체를 즐깁니다.
+            </p>
+            <p>
+              현재 주 역량은 프론트엔드 개발이며, 사용자에게 시각적 즐거움을
+              선사하는 것과 컴포넌트 설계에 재미를 느끼고 있습니다.
+            </p>
+          </div>
         </div>
       </Container>
     </section>
