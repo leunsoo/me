@@ -19,10 +19,10 @@
   --color-accent: var(--color-accent);
   --color-accent-soft: var(--color-accent-soft);
 
-  /* 폰트 — next/font 변수. 한글은 시스템 고딕으로 폴백 */
-  --font-display: var(--font-bricolage), "Apple SD Gothic Neo", "Malgun Gothic",
-    sans-serif;
-  --font-sans: var(--font-hanken), "Apple SD Gothic Neo", "Malgun Gothic",
+  /* 폰트 — next/font 변수. 본문·한글은 Pretendard, 없으면 시스템 고딕 폴백 */
+  --font-display: var(--font-bricolage), var(--font-pretendard),
+    "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-sans: var(--font-pretendard), "Apple SD Gothic Neo", "Malgun Gothic",
     sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }

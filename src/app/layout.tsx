@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import {
-  Bricolage_Grotesque,
-  Hanken_Grotesk,
-  JetBrains_Mono,
-} from "next/font/google";
+import { Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "@/styles/globals.css";
 import TopNav from "@/components/layout/TopNav";
 import Footer from "@/components/layout/Footer";
@@ -14,10 +11,14 @@ const bricolage = Bricolage_Grotesque({
   display: "swap",
 });
 
-const hanken = Hanken_Grotesk({
-  variable: "--font-hanken",
-  subsets: ["latin"],
+// 본문 — 한글+라틴 한 몸. next/font/google 에 없어 로컬 woff2 를 self-host.
+const pretendard = localFont({
+  src: "./fonts/PretendardVariable.woff2",
+  variable: "--font-pretendard",
   display: "swap",
+  weight: "45 920",
+  // 2MB 가변 폰트라 preload 는 끔. swap 으로 시스템 고딕 먼저 → 로드되면 교체.
+  preload: false,
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -43,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="ko"
       suppressHydrationWarning
-      className={`${bricolage.variable} ${hanken.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${bricolage.variable} ${pretendard.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-bg font-sans text-body text-fg">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
