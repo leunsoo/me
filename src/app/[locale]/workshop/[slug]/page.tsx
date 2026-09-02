@@ -11,20 +11,22 @@ import {
   type WorkshopFrontmatter,
 } from "@/features/workshop";
 
-type Props = { params: Promise<{ slug: string }> };
-
 export function generateStaticParams() {
   return getAllWorkshopEntries().map((e) => ({ slug: e.slug }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/workshop/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const doc = readMdxDocument<WorkshopFrontmatter>("workshop", slug);
   if (!doc) return {};
   return { title: doc.frontmatter.title, description: doc.frontmatter.summary };
 }
 
-export default async function WorkshopEntryPage({ params }: Props) {
+export default async function WorkshopEntryPage({
+  params,
+}: PageProps<"/[locale]/workshop/[slug]">) {
   const { slug } = await params;
   const doc = readMdxDocument<WorkshopFrontmatter>("workshop", slug);
   if (!doc) notFound();

@@ -1,18 +1,22 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import Container from "@/components/ui/Container";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import LocaleSwitcher from "@/components/ui/LocaleSwitcher";
 
+// href 는 로케일 접두사 없는 경로. @/i18n/navigation 의 Link 가 자동으로 /ko·/en 을 붙인다.
 const NAV_LINKS = [
-  { label: "작업실", href: "/workshop" },
-  { label: "블로그", href: "/blog" },
-  { label: "소개", href: "/about" },
-];
+  { key: "workshop", href: "/workshop" },
+  { key: "blog", href: "/blog" },
+  { key: "about", href: "/about" },
+] as const;
 
 export default function TopNav() {
+  // usePathname 은 로케일 접두사를 뗀 경로("/workshop")를 돌려줘 활성 판별이 그대로 된다.
   const pathname = usePathname();
+  const t = useTranslations("nav");
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur">
@@ -22,7 +26,7 @@ export default function TopNav() {
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
-          {NAV_LINKS.map(({ label, href }) => {
+          {NAV_LINKS.map(({ key, href }) => {
             const active = pathname === href || pathname.startsWith(`${href}/`);
             return (
               <Link
@@ -37,13 +41,16 @@ export default function TopNav() {
                     : "text-fg-soft hover:text-fg")
                 }
               >
-                {label}
+                {t(key)}
               </Link>
             );
           })}
         </nav>
 
-        <ThemeToggle />
+        <div className="flex items-center gap-4">
+          <LocaleSwitcher />
+          <ThemeToggle />
+        </div>
       </Container>
     </header>
   );

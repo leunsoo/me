@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "defaultTitle": "leunsoo — 프론트엔드 개발자",
+    "titleTemplate": "%s — leunsoo",
+    "description": "감각적인 웹 경험을 설계하고 구현하는 프론트엔드 개발자, leunsoo의 포트폴리오."
+  },
+  "nav": {
+    "workshop": "작업실",
+    "blog": "블로그",
+    "about": "소개"
+  },
+  "hero": {
+    "srHeading": "이은수 — 프론트엔드 개발자",
+    "headline": "코드 강박",
+    "tagline": "최고를 추구하며 최선을 탐색합니다.",
+    "body1": "특정 직무에 종속되지 않고, 끝없는 사고와 문제 해결과 같이 개발이라는 행위 자체를 즐깁니다.",
+    "body2": "현재 주 역량은 프론트엔드 개발이며, 사용자에게 시각적 즐거움을 선사하는 것과 컴포넌트 설계에 재미를 느끼고 있습니다."
+  },
+  "a11y": {
+    "toLightMode": "라이트 모드로 전환",
+    "toDarkMode": "다크 모드로 전환",
+    "switchLanguage": "언어 전환"
+  }
+}

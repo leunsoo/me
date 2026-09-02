@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "defaultTitle": "leunsoo — Frontend Developer",
+    "titleTemplate": "%s — leunsoo",
+    "description": "leunsoo — a frontend developer who builds polished, thoughtful web experiences."
+  },
+  "nav": {
+    "workshop": "Workshop",
+    "blog": "Blog",
+    "about": "About"
+  },
+  "hero": {
+    "srHeading": "Eunsoo Lee — Frontend Developer",
+    "headline": "Code is a compulsion",
+    "tagline": "Reaching for the best, still finding my best.",
+    "body1": "I don't define myself by a job title. What I enjoy is the building itself — the constant thinking, the problem-solving that never quite ends.",
+    "body2": "Frontend is where my strengths are right now, and I get the most out of it when I'm creating visual delight for users and shaping the components behind it."
+  },
+  "a11y": {
+    "toLightMode": "Switch to light mode",
+    "toDarkMode": "Switch to dark mode",
+    "switchLanguage": "Switch language"
+  }
+}
