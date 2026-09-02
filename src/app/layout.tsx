@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import TopNav from "@/components/layout/TopNav";
 import Footer from "@/components/layout/Footer";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// 본문 — 한글+라틴 한 몸. next/font/google 에 없어 로컬 woff2 를 self-host.
+// 제목·본문 공용 — 한글+라틴 한 몸. next/font/google 에 없어 로컬 woff2 를 self-host.
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
   variable: "--font-pretendard",
@@ -44,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="ko"
       suppressHydrationWarning
-      className={`${bricolage.variable} ${pretendard.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${pretendard.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-bg font-sans text-body text-fg">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

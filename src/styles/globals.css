@@ -19,9 +19,9 @@
   --color-accent: var(--color-accent);
   --color-accent-soft: var(--color-accent-soft);
 
-  /* 폰트 — next/font 변수. 본문·한글은 Pretendard, 없으면 시스템 고딕 폴백 */
-  --font-display: var(--font-bricolage), var(--font-pretendard),
-    "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  /* 폰트 — next/font 변수. 제목·본문 모두 Pretendard 한 몸, 없으면 시스템 고딕 폴백 */
+  --font-display: var(--font-pretendard), "Apple SD Gothic Neo", "Malgun Gothic",
+    sans-serif;
   --font-sans: var(--font-pretendard), "Apple SD Gothic Neo", "Malgun Gothic",
     sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
