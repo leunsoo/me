@@ -1,18 +1,13 @@
 import Container from "@/components/ui/Container";
 
-const SOCIALS = [
-  { label: "GitHub", href: "https://github.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-];
+// const SOCIALS = [{ label: "GitHub", href: "https://github.com/leunsoo" }];
 
 export default function Footer() {
   return (
     <footer className="border-t border-line py-block">
       <Container className="flex flex-col gap-4 sm:flex-row sm:items-baseline sm:justify-between">
-        <p className="text-caption text-fg-soft">
-          © {new Date().getFullYear()} leunsoo
-        </p>
-        <ul className="flex gap-5">
+        <p className="text-caption text-fg-soft">© 2026 leunsoo</p>
+        {/* <ul className="flex gap-5">
           {SOCIALS.map(({ label, href }) => (
             <li key={label}>
               <a
@@ -25,7 +20,7 @@ export default function Footer() {
               </a>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </Container>
     </footer>
   );
