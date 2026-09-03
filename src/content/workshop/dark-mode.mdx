@@ -1,0 +1,126 @@
+---
+title: "다크 모드"
+summary: "color-scheme + light-dark() 로 다크 팔레트 중복 없이. <html data-theme> 를 진실의 원천으로, useSyncExternalStore 로 React 와 동기화, 깜빡임은 블로킹 스크립트로 차단."
+date: "2026-09-03"
+---
+
+라이트/다크 전환에서 실제로 어려운 건 색을 두 벌 만드는 게 아니다 — **상태를 어디에 둘 것인가**, 그리고 **첫 페인트에서 안 깜빡이게** 하는 것이다.
+
+## 진실의 원천: `<html data-theme>`
+
+상태는 React 도 `localStorage` 도 아닌 **`<html>` 의 `data-theme` 속성** 한 곳에 둔다. 세 가지 상태:
+
+| 속성 | 의미 |
+| --- | --- |
+| 없음 | OS 설정을 따른다 |
+| `data-theme="light"` | 라이트 고정 |
+| `data-theme="dark"` | 다크 고정 |
+
+`localStorage` 는 이 선택을 **다음 방문까지 저장**하는 용도일 뿐, 렌더 중엔 읽지 않는다.
+
+## 색: `color-scheme` + `light-dark()`
+
+토큰은 한 줄이다. 다크용 `@media` 블록도, `.dark` 클래스도 없다.
+
+```css
+:root {
+  color-scheme: light dark;               /* 둘 다 지원, 기본은 OS */
+  --color-bg: light-dark(var(--gray-50), var(--gray-950));
+  --color-fg: light-dark(var(--gray-900), var(--gray-100));
+  --color-accent: light-dark(var(--blue-500), var(--blue-300));
+}
+
+/* 명시적 선택이 OS 를 이긴다 (양방향) */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+```
+
+`light-dark(a, b)` 는 `color-scheme` 이 `light` 로 풀리면 `a`, `dark` 면 `b` 를 돌려준다. `color-scheme: light dark` 는 "OS 를 따르라"는 뜻이고, `[data-theme]` 가 그걸 한쪽으로 고정한다. 그래서 **팔레트는 토큰당 한 줄**이고, 새 토큰은 `light-dark()` 한 줄만 추가하면 라이트·다크가 같이 온다.
+
+(원시 → 의미 → `@theme` 3계층은 [디자인 시스템](/workshop/design-system) 글 참고. 위 `--color-*` 는 그중 의미 계층이다.)
+
+## 깜빡임 방지
+
+문제: 저장된 선택은 JavaScript 로만 읽을 수 있는데, React 하이드레이션은 첫 페인트 **이후**다. 저장값이 다크면 라이트로 한 번 번쩍이고 다크로 바뀐다 (FOUC).
+
+해결: `<head>` 에서 **페인트 전에 실행되는 스크립트**가 `localStorage` → `data-theme` 를 복원한다.
+
+```js
+// public/theme-init.js
+(function () {
+  try {
+    var t = localStorage.getItem("theme");
+    if (t === "dark" || t === "light") {
+      document.documentElement.dataset.theme = t;
+    }
+  } catch {}
+})();
+```
+
+```tsx
+// app/[locale]/layout.tsx
+<script src="/theme-init.js" async />
+```
+
+인라인이 아니라 **외부 파일 + `async`** 인 이유: 이 레이아웃은 로케일(`[locale]`) 이 바뀌면 클라이언트에서 리렌더되는데, 그때 React 19 가 인라인 `<script>` 를 재조정하며 경고를 낸다. `async` 외부 스크립트는 React 가 `<head>` 로 hoist 하고 재조정에서 제외한다. 렌더를 막는 CSS(폰트·globals) 로드 시간이 이 작은 스크립트보다 길어서 실제로는 페인트 전에 실행된다.
+
+## React 와 동기화: `useSyncExternalStore`
+
+토글 버튼은 **상태를 소유하지 않는다.** 진짜 상태는 DOM 속성이고, 버튼은 그걸 **구독**한다.
+
+```tsx
+const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+function getSnapshot() {
+  const attr = document.documentElement.dataset.theme;
+  if (attr === "light" || attr === "dark") return attr;
+  // 속성이 없으면 OS 설정
+  return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function subscribe(onChange) {
+  const mq = matchMedia("(prefers-color-scheme: dark)");
+  mq.addEventListener("change", onChange);          // ① OS 설정 변경
+  addEventListener("storage", onChange);            // ② 다른 탭에서 변경
+  const obs = new MutationObserver(onChange);       // ③ data-theme 직접 변경
+  obs.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+  return () => {
+    /* 셋 다 해제 */
+  };
+}
+
+function toggle() {
+  const next = theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next; // 상태 변경
+  localStorage.setItem("theme", next); // 지속
+  // 리렌더는 MutationObserver 가 유발한다
+}
+```
+
+**왜 `useState` 가 아닌가:** 테마는 React 밖에서도 바뀐다 — OS 설정, 다른 탭, 깜빡임 방지 스크립트. `useState` 로 들고 있으면 그 변화를 놓친다. `useSyncExternalStore` 는 외부 소스를 tearing 없이 React 에 미러링하는 정석 훅이다. 버튼은 "표시 + 속성 쓰기"만 하고, 나머지는 옵저버가 처리한다.
+
+## SSR / 하이드레이션
+
+- `getServerSnapshot()` 은 고정값(`"light"`) 을 반환한다 — 서버엔 `window` 도 `localStorage` 도 없다.
+- 그래서 서버 HTML 의 아이콘과, 스크립트가 이미 `data-theme` 를 바꿔놓은 클라이언트의 아이콘이 다를 수 있다 → 버튼에 `suppressHydrationWarning`.
+- 하이드레이션 직후 `useSyncExternalStore` 가 실제 스냅샷으로 다시 렌더해 맞춘다.
+
+## 정리: 사용한 기술
+
+| 기술 | 역할 |
+| --- | --- |
+| `color-scheme` (CSS) | OS 스킴 opt-in + 강제 전환 스위치 |
+| `light-dark()` (CSS) | 토큰 한 줄로 라이트/다크 분기 — `@media`·`.dark` 중복 제거 |
+| `<html data-theme>` | 진실의 원천 (3-state) |
+| `localStorage` | 선택을 다음 방문까지 지속 |
+| 블로킹 `<script>` | 첫 페인트 전 복원 → FOUC 차단 |
+| `useSyncExternalStore` (React) | DOM 속성을 React 상태로 tearing 없이 미러링 |
+| `MutationObserver` | `data-theme` 변경 감지 |
+| `matchMedia` | OS 설정 실시간 반영 |
+| `storage` 이벤트 | 탭 간 동기화 |
+| inline SVG (해·달) | 아이콘, 라이브러리 의존성 0 |
+
+관련 파일: `styles/semantic.css`(토큰), `public/theme-init.js`(깜빡임), `components/ui/ThemeToggle.tsx`(버튼).
