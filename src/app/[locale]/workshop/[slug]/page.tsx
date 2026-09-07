@@ -11,6 +11,9 @@ import {
   type WorkshopFrontmatter,
 } from "@/features/workshop";
 
+// generateStaticParams 에 없는 slug(존재하지 않는 글, draft 글)는 렌더하지 않고 404.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return getAllWorkshopEntries().map((e) => ({ slug: e.slug }));
 }
