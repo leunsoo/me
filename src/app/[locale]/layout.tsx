@@ -6,6 +6,7 @@ import { JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { routing } from "@/i18n/routing";
+import { SITE_URL } from "@/lib/site";
 import TopNav from "@/components/layout/TopNav";
 import Footer from "@/components/layout/Footer";
 
@@ -36,8 +37,16 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
   return {
+    metadataBase: new URL(SITE_URL),
     title: { default: t("defaultTitle"), template: t("titleTemplate") },
     description: t("description"),
+    alternates: {
+      types: {
+        "application/rss+xml": [
+          { url: `/${locale}/feed.xml`, title: t("defaultTitle") },
+        ],
+      },
+    },
   };
 }
 

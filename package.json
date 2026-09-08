@@ -2,21 +2,26 @@
   "name": "me",
   "version": "0.1.0",
   "private": true,
+  "imports": {
+    "#velite": "./.velite/index.js"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "run-p -l dev:content dev:next",
+    "dev:content": "velite --watch",
+    "dev:next": "next dev",
+    "build": "run-s build:content build:next",
+    "build:content": "velite --clean",
+    "build:next": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "velite"
   },
   "dependencies": {
     "@xyflow/react": "^12.11.6",
-    "gray-matter": "^4.0.3",
     "next": "16.3.4",
     "next-intl": "^4.14.2",
-    "next-mdx-remote": "^6.0.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "remark-gfm": "^4.0.1"
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -25,8 +30,11 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
+    "npm-run-all2": "^8.0.4",
     "playwright": "^1.62.1",
+    "rehype-slug": "^6.0.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "velite": "^0.4.0"
   }
 }

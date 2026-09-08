@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# velite — 생성된 콘텐츠 데이터 레이어
+/.velite/
+
 # production
 /build
 

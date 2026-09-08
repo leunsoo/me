@@ -1,17 +1,21 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/date";
-import { sortedEntries } from "../entries";
+import type { ResolvedEntry } from "@/lib/content";
 
-/** /workshop 리스트 — 항목 전체를 최신순으로. */
-export function WorkshopList() {
-  const entries = sortedEntries();
+/** /workshop · /blog 리스트 — 항목 전체를 최신순으로. */
+export function EntryList({ items }: { items: ResolvedEntry[] }) {
+  if (items.length === 0) {
+    return (
+      <p className="mt-block text-body text-fg-soft">아직 글이 없습니다.</p>
+    );
+  }
 
   return (
     <ul className="mt-block border-t border-line">
-      {entries.map((entry) => (
-        <li key={entry.slug} className="border-b border-line">
+      {items.map(({ entry }) => (
+        <li key={`${entry.collection}/${entry.slug}`} className="border-b border-line">
           <Link
-            href={`/workshop/${entry.slug}`}
+            href={`/${entry.collection}/${entry.slug}`}
             className="group flex flex-col gap-1 py-6"
           >
             <div className="flex items-baseline justify-between gap-4">
