@@ -8,9 +8,6 @@ import {
 } from "@/lib/content";
 import type { Locale } from "@/i18n/routing";
 import { EntryHeader } from "./EntryHeader";
-import { EntryNav } from "./EntryNav";
-import { RelatedPosts } from "./RelatedPosts";
-import { Backlinks } from "./Backlinks";
 import { Toc } from "./Toc";
 import { FallbackNotice } from "./FallbackNotice";
 
@@ -27,9 +24,6 @@ export function EntryPage({ resolved }: { resolved: ResolvedEntry }) {
           <div className="prose mt-block">
             <MDXContent code={entry.body} />
           </div>
-          <EntryNav entry={entry} />
-          <RelatedPosts entry={entry} />
-          <Backlinks entry={entry} />
         </article>
 
         <aside className="hidden lg:block">

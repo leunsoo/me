@@ -1,8 +1,6 @@
 import type { MetadataRoute } from "next";
 import {
-  allSeriesIds,
   allSlugs,
-  allTags,
   availableLocales,
   getEntry,
   type Collection,
@@ -20,7 +18,7 @@ function bothLocales(path: string) {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPaths = ["", "/workshop", "/blog", "/tags", "/about"];
+  const staticPaths = ["", "/workshop", "/blog", "/about"];
   const staticEntries: MetadataRoute.Sitemap = staticPaths.map((path) => ({
     url: abs(routing.defaultLocale, path),
     alternates: { languages: bothLocales(path) },
@@ -46,13 +44,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  const taxonomyEntries: MetadataRoute.Sitemap = [
-    ...allTags().map((tag) => `/tags/${encodeURIComponent(tag)}`),
-    ...allSeriesIds().map((id) => `/series/${encodeURIComponent(id)}`),
-  ].map((path) => ({
-    url: abs(routing.defaultLocale, path),
-    alternates: { languages: bothLocales(path) },
-  }));
-
-  return [...staticEntries, ...contentEntries, ...taxonomyEntries];
+  return [...staticEntries, ...contentEntries];
 }

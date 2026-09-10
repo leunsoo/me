@@ -1,7 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/date";
 import type { Entry, Collection } from "@/lib/content";
-import { TagChips } from "./TagChips";
 
 const BACK_LABEL: Record<Collection, string> = {
   workshop: "← 작업실",
@@ -25,24 +24,11 @@ export function EntryHeader({ entry }: { entry: Entry }) {
         <time dateTime={entry.date}>{formatDate(entry.date)}</time>
         <span aria-hidden>·</span>
         <span>{entry.metadata.readingTime}분 읽기</span>
-        {entry.series && (
-          <>
-            <span aria-hidden>·</span>
-            <Link
-              href={`/series/${encodeURIComponent(entry.series.id)}`}
-              className="link"
-            >
-              시리즈: {entry.series.id} ({entry.series.order}편)
-            </Link>
-          </>
-        )}
       </div>
 
       <p className="mt-6 whitespace-pre-line text-lede text-fg-soft">
         {entry.summary}
       </p>
-
-      <TagChips tags={entry.tags} className="mt-5" />
     </header>
   );
 }

@@ -4,8 +4,7 @@ import { routing, type Locale } from "@/i18n/routing";
 /* ------------------------------------------------------------------ *
  * Velite 가 생성한 콘텐츠 데이터(#velite) 위의 얇은 조회 레이어.
  * - 로케일 폴백: 요청 로케일 글이 없으면 기본 로케일(ko) 글로 대체
- * - draft 제외 (prod 에서는 velite prepare 가 이미 걷어내지만 dev 대비 한 번 더)
- * - 태그/시리즈 파생 목록
+ * - draft 제외
  * ------------------------------------------------------------------ */
 
 export type Collection = "workshop" | "blog";
@@ -82,62 +81,4 @@ export function availableLocales(
   slug: string,
 ): Locale[] {
   return routing.locales.filter((l) => find(collection, slug, l) != null);
-}
-
-/* ---------------------------- 태그 ---------------------------- */
-
-export type TagCount = { tag: string; count: number };
-
-/** 로케일 기준(폴백 포함) 태그별 글 수. 많은 순 → 이름 순. */
-export function tagCounts(locale: Locale, collection?: Collection): TagCount[] {
-  const collections: Collection[] = collection
-    ? [collection]
-    : ["workshop", "blog"];
-  const counter = new Map<string, number>();
-  for (const c of collections)
-    for (const { entry } of listEntries(c, locale))
-      for (const tag of entry.tags)
-        counter.set(tag, (counter.get(tag) ?? 0) + 1);
-
-  return [...counter.entries()]
-    .map(([tag, count]) => ({ tag, count }))
-    .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
-}
-
-export function entriesByTag(tag: string, locale: Locale): ResolvedEntry[] {
-  return (["workshop", "blog"] as Collection[])
-    .flatMap((c) => listEntries(c, locale))
-    .filter(({ entry }) => entry.tags.includes(tag))
-    .sort((a, b) => b.entry.date.localeCompare(a.entry.date));
-}
-
-export function allTags(): string[] {
-  return [
-    ...new Set(
-      (["workshop", "blog"] as Collection[]).flatMap((c) =>
-        pool(c).flatMap((e) => e.tags),
-      ),
-    ),
-  ];
-}
-
-/* --------------------------- 시리즈 --------------------------- */
-
-/** 한 시리즈의 파트들 (order 오름차순). 로케일 폴백 적용. */
-export function seriesParts(id: string, locale: Locale): ResolvedEntry[] {
-  return (["workshop", "blog"] as Collection[])
-    .flatMap((c) => listEntries(c, locale))
-    .filter(({ entry }) => entry.series?.id === id)
-    .sort((a, b) => (a.entry.series!.order - b.entry.series!.order));
-}
-
-export function allSeriesIds(): string[] {
-  return [
-    ...new Set(
-      (["workshop", "blog"] as Collection[])
-        .flatMap((c) => pool(c))
-        .map((e) => e.series?.id)
-        .filter((id): id is string => id != null),
-    ),
-  ];
 }

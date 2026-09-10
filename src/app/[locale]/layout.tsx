@@ -40,13 +40,6 @@ export async function generateMetadata({
     metadataBase: new URL(SITE_URL),
     title: { default: t("defaultTitle"), template: t("titleTemplate") },
     description: t("description"),
-    alternates: {
-      types: {
-        "application/rss+xml": [
-          { url: `/${locale}/feed.xml`, title: t("defaultTitle") },
-        ],
-      },
-    },
   };
 }
 
