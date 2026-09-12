@@ -45,3 +45,6 @@ next-env.d.ts
 
 # Claude Code — 개인 로컬 설정
 .claude/settings.local.json
+
+# 로컬 문서/메모 (버전관리 제외)
+/docs/
