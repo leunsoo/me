@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import Container from "@/components/ui/Container";
-import { EntryList } from "@/components/content/EntryList";
+import { EntryGrid } from "@/components/content/EntryGrid";
 import { listEntries } from "@/lib/content";
 import { routing } from "@/i18n/routing";
 
@@ -26,7 +26,7 @@ export default async function WorkshopPage({
         재미로 구현한 기능들. 하나씩, 만든 것과 그 설명.
       </p>
 
-      <EntryList items={listEntries("workshop", locale)} />
+      <EntryGrid items={listEntries("workshop", locale)} />
     </Container>
   );
 }
