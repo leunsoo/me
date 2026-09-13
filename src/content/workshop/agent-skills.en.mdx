@@ -1,0 +1,79 @@
+---
+title: "Agent Skills"
+summary: "Skills applied to the coding agent."
+date: "2026-09-13"
+draft: false
+---
+
+---
+
+## Code Writing Principles
+
+### ponytail
+
+Forces the simplest, shortest, most minimal solution that actually works.\
+It first questions whether the task needs to exist at all (YAGNI), then favors the standard library over custom code, native platform features over dependencies, and one line over several.\
+Applies to every task — writing, adding, refactoring, fixing, reviewing, or designing code — and to choosing libraries or dependencies, with three intensity levels: lite, full (default), and ultra.
+
+The three skills below are derived from ponytail, each covering a different way of checking that the principle holds.
+
+- **ponytail-review**
+
+  A code review focused solely on over-engineering.\
+  It checks only the current diff, looking for things to cut — reinvented standard library, unneeded dependencies, speculative abstractions, dead flexibility — and summarizes each finding in one line: location, what to cut, what replaces it.
+
+- **ponytail-audit**
+
+  Same as ponytail-review, but scoped to the whole repository instead of a diff.\
+  Ranks what to delete, simplify, or replace with a standard-library or native equivalent, and reports it.
+
+- **ponytail-debt**
+
+  Collects every `ponytail:` technical-debt comment left in the codebase into a single list.\
+  So that deliberately written technical debt doesn't end up neglected forever, it changes nothing and only reports, once.
+
+---
+
+## Component Design
+
+### vercel-composition-patterns
+
+Composable React patterns that scale.\
+Used when refactoring a component with too many boolean props, building a flexible component library, or designing a reusable API.\
+Triggers on compound components, render props, context providers, and component architecture work, and also covers React 19 API changes.
+
+---
+
+## Web Quality
+
+### accessibility
+
+Audits and improves web accessibility against the WCAG 2.2 guidelines.\
+Used for accessibility improvements, a11y audits, WCAG compliance, screen reader support, and keyboard navigation.
+
+### performance
+
+Optimizes web performance for faster loading and a better user experience.\
+Used for site speed improvements, reducing load time, improving page speed, and performance audits.
+
+### seo
+
+Optimizes for search engine visibility and ranking.\
+Used for meta tag fixes, adding structured data, and sitemap optimization.
+
+---
+
+## Design
+
+### frontend-design
+
+Provides guidance for intentional, distinctive visual design when building a new UI or reworking an existing one.\
+Sets an aesthetic direction and typography, helping choices avoid looking like default template output.
+
+---
+
+## Skill Updates
+
+Each skill is pulled from an external repository, so it eventually drifts out of sync with the latest version.\
+This is checked via a scheduled GitHub workflow, which checks each skill's latest version and opens a pull request when there's a change.\
+That PR is never merged automatically — it's reviewed and merged by hand.
