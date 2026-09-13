@@ -158,6 +158,10 @@
     text-decoration-thickness: 2px;
     text-underline-offset: 3px;
   }
+  /* 표 보더와 같은 헤어라인 토큰. 없으면 preflight가 본문 글씨 색(--color-fg)으로 그린다 */
+  .prose hr:not(.not-prose *) {
+    border-color: var(--color-line);
+  }
   .prose pre:not(.not-prose *) {
     overflow-x: auto;
     padding: 1em 1.15em;
