@@ -1,0 +1,43 @@
+name: skills-update
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # 매주 월요일 00:00 UTC (09:00 KST)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Update tool-managed skills (accessibility, frontend-design, performance, seo, vercel-composition-patterns)
+        run: npx --yes skills update -y -p
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Refresh ponytail skills (manually vendored, not in skills-lock.json)
+        run: bash scripts/update-ponytail-skills.sh
+
+      - name: Open PR if anything changed
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'chore: 주간 스킬 자동 업데이트 확인'
+          title: 'chore: 스킬 업데이트 확인 (자동)'
+          body: |
+            매주 자동 실행되는 스킬 버전 체크 결과입니다.
+
+            - `npx skills update`로 tool-managed 스킬(accessibility, frontend-design, performance, seo, vercel-composition-patterns) 갱신 시도
+            - `scripts/update-ponytail-skills.sh`로 ponytail 계열(ponytail, ponytail-review, ponytail-audit, ponytail-debt) 최신본 반영
+
+            스킬 파일은 코드가 아니라 에이전트 행동을 바꾸는 지시문입니다. **diff를 확인한 뒤 병합**해주세요.
+          branch: skills-update/weekly
+          delete-branch: true

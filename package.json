@@ -14,7 +14,8 @@
     "build:next": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "velite"
+    "postinstall": "velite",
+    "skills:update": "npx --yes skills update -y -p && bash scripts/update-ponytail-skills.sh"
   },
   "dependencies": {
     "@xyflow/react": "^12.11.6",
